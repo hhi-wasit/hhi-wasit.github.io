@@ -93,7 +93,7 @@ function renderFooter() {
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; ${new Date().getFullYear()} د. أحمد عزيز. جميع الحقوق محفوظة</p>
+        <p>&copy; ${new Date().getFullYear()} Dr. Ahmed Azeez. All rights reserved</p>
       </div>
     </div>`;
 }
