@@ -92,6 +92,8 @@ function renderFooter() {
           <p style="margin-top:1rem"><a href="admin.html" style="color:#9ca3af;font-size:.8rem"><i class="fas fa-lock" style="${mr}:.3rem"></i>بوابة الإدارة</a></p>
         </div>
       </div>
-     <div class="footer-bottom">
-  <p>&copy; ${new Date().getFullYear()} Dr. Ahmed Azeez. All rights reserved.</p>
-</div>
+      <div class="footer-bottom">
+        <p>&copy; ${new Date().getFullYear()} د. أحمد عزيز. جميع الحقوق محفوظة</p>
+      </div>
+    </div>`;
+}
