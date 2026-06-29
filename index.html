@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>معهد الصحة العالي - واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div class="hero-badge" id="h_badge"></div>
+    <h1 id="h_title"></h1>
+    <p class="subtitle" id="h_subtitle"></p>
+    <div class="hero-btns">
+      <a href="departments.html" class="btn btn-primary" id="h_btn1"></a>
+      <a href="theses.html" class="btn btn-secondary" id="h_btn2"></a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">4</span><span class="stat-label" id="s_depts"></span></div>
+      <div class="stat-item"><span class="stat-num">500+</span><span class="stat-label" id="s_grads"></span></div>
+      <div class="stat-item"><span class="stat-num">40+</span><span class="stat-label" id="s_fac"></span></div>
+      <div class="stat-item"><span class="stat-num" id="s_est_n"></span><span class="stat-label" id="s_founded"></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div>
+        <h2 id="a_title"></h2>
+        <p id="a_p1"></p><p id="a_p2"></p>
+        <a href="about.html" class="btn btn-secondary" id="a_btn"></a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+        <div class="card" style="background:var(--teal-pale);border:none"><div class="card-icon teal"><i class="fas fa-graduation-cap"></i></div><h4 id="f1t"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)" id="f1d"></p></div>
+        <div class="card" style="background:rgba(26,54,93,0.05);border:none"><div class="card-icon navy"><i class="fas fa-hospital"></i></div><h4 id="f2t"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)" id="f2d"></p></div>
+        <div class="card" style="background:rgba(192,57,43,0.05);border:none"><div class="card-icon accent"><i class="fas fa-flask"></i></div><h4 id="f3t"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)" id="f3d"></p></div>
+        <div class="card" style="background:rgba(230,126,34,0.05);border:none"><div class="card-icon orange"><i class="fas fa-users"></i></div><h4 id="f4t"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)" id="f4d"></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header"><h2 id="od_t"></h2><p id="od_s"></p></div>
+    <div class="dept-grid">
+      <div class="dept-card">
+        <div class="dept-card-top">
+          <span class="dept-badge nursing"><i class="fas fa-heartbeat"></i> <span id="dn_b"></span></span>
+          <h3 id="dn_n"></h3><p id="dn_d"></p>
+        </div>
+        <div class="dept-card-body">
+          <div class="dept-detail"><i class="fas fa-clock"></i> <span id="dn_du"></span></div>
+          <div class="dept-detail"><i class="fas fa-users"></i> <span id="dn_en"></span></div>
+          <div class="dept-detail"><i class="fas fa-map-marker-alt"></i> <span id="dn_si"></span></div>
+          <div style="margin-top:1.2rem"><a href="departments.html#nursing" class="btn btn-secondary btn-sm" id="dn_bt"></a></div>
+        </div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-card-top">
+          <span class="dept-badge emergency"><i class="fas fa-ambulance"></i> <span id="de_b"></span></span>
+          <h3 id="de_n"></h3><p id="de_d"></p>
+        </div>
+        <div class="dept-card-body">
+          <div class="dept-detail"><i class="fas fa-clock"></i> <span id="de_du"></span></div>
+          <div class="dept-detail"><i class="fas fa-users"></i> <span id="de_en"></span></div>
+          <div class="dept-detail"><i class="fas fa-map-marker-alt"></i> <span id="de_si"></span></div>
+          <div style="margin-top:1.2rem"><a href="departments.html#emergency" class="btn btn-secondary btn-sm" id="de_bt"></a></div>
+        </div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-card-top">
+          <span class="dept-badge midwifery"><i class="fas fa-baby"></i> <span id="dm_b"></span></span>
+          <h3 id="dm_n"></h3><p id="dm_d"></p>
+        </div>
+        <div class="dept-card-body">
+          <div class="dept-detail"><i class="fas fa-clock"></i> <span id="dm_du"></span></div>
+          <div class="dept-detail"><i class="fas fa-users"></i> <span id="dm_en"></span></div>
+          <div class="dept-detail"><i class="fas fa-map-marker-alt"></i> <span id="dm_si"></span></div>
+          <div style="margin-top:1.2rem"><a href="departments.html#midwifery" class="btn btn-secondary btn-sm" id="dm_bt"></a></div>
+        </div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-card-top">
+          <span class="dept-badge anesthesia"><i class="fas fa-syringe"></i> <span id="da_b"></span></span>
+          <h3 id="da_n"></h3><p id="da_d"></p>
+        </div>
+        <div class="dept-card-body">
+          <div class="dept-detail"><i class="fas fa-clock"></i> <span id="da_du"></span></div>
+          <div class="dept-detail"><i class="fas fa-users"></i> <span id="da_en"></span></div>
+          <div class="dept-detail"><i class="fas fa-map-marker-alt"></i> <span id="da_si"></span></div>
+          <div style="margin-top:1.2rem"><a href="departments.html#anesthesia" class="btn btn-secondary btn-sm" id="da_bt"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
+      <div><h2 style="margin-bottom:.3rem" id="ln_t"></h2><p style="margin:0;color:var(--gray)" id="ln_s"></p></div>
+      <a href="news.html" class="btn btn-secondary btn-sm" id="ln_a"></a>
+    </div>
+    <div class="news-grid" id="homeNewsGrid"></div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
+      <div><h2 style="margin-bottom:.3rem" id="th_t"></h2><p style="margin:0;color:var(--gray)" id="th_s"></p></div>
+      <a href="theses.html" class="btn btn-secondary btn-sm" id="th_a"></a>
+    </div>
+    <div id="homeThesesList"></div>
+  </div>
+</section>
+
+<section style="background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);padding:3.5rem 0">
+  <div class="container" style="text-align:center;color:#fff">
+    <h2 style="color:#fff;border:none;margin-bottom:.75rem" id="cs_t"></h2>
+    <p style="color:rgba(255,255,255,.8);max-width:560px;margin:0 auto 2rem" id="cs_s"></p>
+    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap">
+      <a href="contact.html" class="btn" style="background:#fff;color:var(--navy)" id="cs_b"></a>
+      <a href="mailto:info@hhi-wasit.edu.iq" class="btn btn-secondary" style="border-color:rgba(255,255,255,.5);color:#fff;">info@hhi-wasit.edu.iq</a>
+    </div>
+  </div>
+</section>
+
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script>
+<script src="js/layout.js"></script>
+<script>
+const DD = {
+  nursing:'القسم الأكبر، يُعدّ الطلاب لرعاية المرضى في المستشفيات ومراكز الصحة والوحدات المتخصصة.',
+  emergency:'يُدرّب أخصائيين في طوارئ قادرين على إدارة الصدمات وأمراض القلب الحادة والاستجابة للكوارث.',
+  midwifery:'يُخرّج قابلات ماهرات لمرافقة الأمهات خلال الحمل والولادة وما بعد الولادة لخفض وفيات الأمهات.',
+  anesthesia:'يُأهّل تقنيين متخصصين في دعم فرق التخدير والعمليات الجراحية في المستشفيات والمرافق الصحية.'
+};
+const DL = {nursing:'التمريض',emergency:'الطوارئ',midwifery:'القبالة',anesthesia:'التخدير'};
+
+function renderPage() {
+  renderHeader('index.html');
+  renderFooter();
+  const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  document.getElementById('h_badge').innerHTML='<i class="fas fa-star" style="margin-left:.4rem"></i>وزارة الصحة – العراق';
+  set('h_title', 'معهد الصحة العالي واسط');
+  set('h_subtitle', 'تأهيل الكوادر الصحية في التمريض وطب الطوارئ والقبالة والتخدير لخدمة أبناء محافظة واسط والعراق.');
+  set('h_btn1', 'استعرض الأقسام'); set('h_btn2', 'رسائل التخرج');
+  set('s_depts', 'أقسام'); set('s_grads', 'خريج');
+  set('s_fac', 'عضو هيئة تدريسية');
+  set('s_est_n', '2016'); set('s_founded', 'تأسس');
+  set('a_title', 'عن المعهد');
+  set('a_p1', 'معهد الصحة العالي  / واسط مؤسسة تعليمية حكومية تابعة لوزارة الصحة العراقية ووزارة التعليم العالي والبحث العلمي، يقع في مدينة الكوت عاصمة محافظة واسط، ويضطلع بتأهيل الكوادر الصحية منذ تأسيسه.');
+  set('a_p2', 'تتمثل رسالتنا في إعداد كوادر صحية مؤهلة وأخلاقية وذات كفاءة عالية، مسلحة بالمعرفة النظرية والمهارات الإكلينيكية العملية. ومن خلال شراكاتنا مع المستشفيات والمراكز الصحية الإقليمية، يتلقى طلابنا تدريبًا ميدانيًا حقيقيًا في بيئات سريرية فعلية.');
+  set('a_btn', 'اعرف المزيد');
+  set('f1t', 'برامج معتمدة'); set('f1d', 'برامج درجات علمية معتمدة وطنيًا في العلوم الصحية');
+  set('f2t', 'التدريب الإكلينيكي'); set('f2d', 'تدريب عملي في المستشفيات والعيادات المنتسبة');
+  set('f3t', 'مختبرات حديثة'); set('f3d', 'مختبرات محاكاة ومهارات للتعلم العملي');
+  set('f4t', 'كادر تدريسي متخصص'); set('f4d', 'محاضرون ومشرفون إكلينيكيون ذوو خبرة');
+  set('od_t', 'أقسامنا'); set('od_s', 'أربعة أقسام متخصصة تقدم تعليمًا صحيًا راقيًا في واسط.');
+  set('dn_b', DL.nursing); set('dn_n', 'قسم التمريض'); set('dn_d', DD.nursing);
+  set('dn_du', '٢ سنوات'); set('dn_en', '~٢٠٠ طالب/سنة'); set('dn_si', 'مستشفى الكوت التعليمي، مراكز الصحة'); set('dn_bt', 'تفاصيل القسم');
+  set('de_b', DL.emergency); set('de_n', 'قسم طب الطوارئ'); set('de_d', DD.emergency);
+  set('de_du', '٢ سنوات'); set('de_en', '~١٢٠ طالب/سنة'); set('de_si', 'مركز طوارئ واسط، طوارئ مستشفى الكوت'); set('de_bt', 'تفاصيل القسم');
+  set('dm_b', DL.midwifery); set('dm_n', 'قسم القبالة'); set('dm_d', DD.midwifery);
+  set('dm_du', '٢ سنوات'); set('dm_en', '~١٠٠ طالب/سنة'); set('dm_si', 'مستشفى ولادة واسط، عيادات صحة المرأة'); set('dm_bt', 'تفاصيل القسم');
+  set('da_b', DL.anesthesia); set('da_n', 'قسم التخدير'); set('da_d', DD.anesthesia);
+  set('da_du', '٢ سنوات'); set('da_en', '~٩٠ طالب/سنة'); set('da_si', 'مستشفى الكوت التعليمي، غرف عمليات مستشفى واسط العام'); set('da_bt', 'تفاصيل القسم');
+  set('ln_t', 'آخر الأخبار'); set('ln_s', 'تحديثات وإعلانات وفعاليات معهد الصحة العالي  / واسط'); set('ln_a', 'كل الأخبار');
+  set('th_t', 'رسائل التخرج'); set('th_s', 'تصفح البحوث التي أعدها طلابنا الخريجون'); set('th_a', 'الأرشيف الكامل');
+  set('cs_t', 'تواصل معنا'); set('cs_s', 'هل لديك أسئلة حول القبول أو البرامج أو رسائل التخرج؟ نحن هنا للمساعدة.'); set('cs_b', 'اتصل بنا');
+  document.body.classList.add('rtl');
+  document.documentElement.dir = 'rtl';
+  document.documentElement.lang = 'ar';
+  document.title = 'المعهد الصحي العالي – واسط';
+
+  document.getElementById('homeNewsGrid').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></div>';
+  document.getElementById('homeThesesList').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></div>';
+  HHI.getNews().then(news => {
+    news = news.sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+    document.getElementById('homeNewsGrid').innerHTML = news.length ? news.map(n=>{
+      const imgs = (n.images && n.images.length) ? n.images : (n.image ? [n.image] : []);
+      const thumb = imgs[0] || '';
+      return `
+      <div class="news-card">
+        ${thumb ? `<div style="height:160px;overflow:hidden"><img src="${thumb}" style="width:100%;height:100%;object-fit:cover;display:block"></div>` : ''}
+        <div class="news-card-header"><span class="news-category">${escHtml(n.category)}</span><span class="news-date">${formatDate(n.date)}</span></div>
+        <div class="news-card-body"><h3>${escHtml(n.title)}</h3><p>${escHtml(n.body.substring(0,120))}…</p></div>
+        <div class="news-card-footer"><a href="news.html" class="btn btn-secondary btn-sm">اقرأ المزيد</a></div>
+      </div>`;
+    }).join('') : '<p style="color:var(--gray);padding:1rem">لا توجد أخبار حتى الآن.</p>';
+  }).catch(() => {
+    document.getElementById('homeNewsGrid').innerHTML = '<p style="color:var(--gray);padding:1rem">تعذّر تحميل الأخبار.</p>';
+  });
+  HHI.getTheses().then(theses => {
+    theses = theses.sort((a,b)=>b.year-a.year).slice(0,3);
+    document.getElementById('homeThesesList').innerHTML = theses.length ? theses.map(th=>`
+      <div class="thesis-item"><div class="thesis-meta"><span class="thesis-tag ${th.department}">${DL[th.department]||th.department}</span><span class="thesis-year">${th.year}</span></div>
+      <h4>${escHtml(th.title)}</h4>
+      <div class="thesis-author"><i class="fas fa-user" style="margin-left:.4rem;color:var(--teal)"></i>${escHtml(th.author)} | المشرف: ${escHtml(th.supervisor)}</div>
+      <a href="theses.html" class="thesis-download"><i class="fas fa-file-pdf"></i> عرض في الأرشيف</a></div>`).join('')
+    : '<p style="color:var(--gray);padding:1rem">لا توجد رسائل بعد.</p>';
+  }).catch(() => {
+    document.getElementById('homeThesesList').innerHTML = '<p style="color:var(--gray);padding:1rem">تعذّر تحميل الرسائل.</p>';
+  });
+}
+renderPage();
+</script>
+</body>
+</html>

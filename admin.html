@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة الإدارة – المعهد الصحي العالي واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+
+<!-- LOGIN -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-box">
+    <div class="logo-icon" style="margin:0 auto 1.5rem;width:64px;height:64px;font-size:1.5rem"><i class="fas fa-lock"></i></div>
+    <h2 id="l_title"></h2>
+    <p id="l_sub"></p>
+    <div id="loginError" class="alert alert-warn" style="display:none;text-align:right">
+      <i class="fas fa-exclamation-triangle" style="margin-left:.4rem"></i><span id="l_err"></span>
+    </div>
+    <div class="form-group" style="text-align:right">
+      <label id="l_pass_lbl"></label>
+      <input type="password" id="loginPass" class="form-control" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button onclick="doLogin()" class="btn btn-primary" style="width:100%" id="l_btn"></button>
+    <p style="margin-top:.8rem"><a href="index.html" style="font-size:.8rem;color:var(--gray)" id="l_back"></a></p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div class="admin-wrapper" id="adminApp" style="display:none">
+  <aside class="admin-sidebar">
+    <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.1)">
+      <div class="logo-icon" style="width:36px;height:36px;font-size:.85rem">HHI</div>
+      <div style="color:#fff;font-size:.85rem;font-weight:600;line-height:1.3">بوابة الإدارة<br>المعهد الصحي العالي / واسط</div>
+    </div>
+    <h3 id="sb_content"></h3>
+    <ul>
+      <li><a href="#" class="active" id="nav-theses" onclick="showSection('theses');return false"><i class="fas fa-file-alt"></i><span id="sb_theses"></span></a></li>
+      <li><a href="#" id="nav-news" onclick="showSection('news');return false"><i class="fas fa-newspaper"></i><span id="sb_news"></span></a></li>
+      <li><a href="#" id="nav-bulletin" onclick="showSection('bulletin');return false"><i class="fas fa-book-open"></i><span id="sb_bulletin"></span></a></li>
+      <li><a href="#" id="nav-staff" onclick="showSection('staff');return false"><i class="fas fa-users"></i><span id="sb_staff"></span></a></li>
+    </ul>
+    <h3 id="sb_system"></h3>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i><span id="sb_viewsite"></span></a></li>
+      <li><a href="#" onclick="doLogout();return false"><i class="fas fa-sign-out-alt"></i><span id="sb_logout"></span></a></li>
+    </ul>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- THESES SECTION -->
+    <div id="section-theses">
+      <h2 id="mg_t_title"></h2><p class="sub" id="mg_t_sub"></p>
+
+      <!-- Upload Form -->
+      <div class="card-white">
+        <h3 style="font-size:1.15rem;color:var(--navy);margin-bottom:1.5rem">
+          <i class="fas fa-upload" style="margin-left:.5rem;color:var(--teal)"></i><span id="up_title"></span>
+        </h3>
+        <div id="uploadSuccess" class="alert alert-success" style="display:none">
+          <i class="fas fa-check-circle" style="margin-left:.4rem"></i>تم رفع الرسالة بنجاح!
+        </div>
+        <div id="uploadError" class="alert alert-warn" style="display:none">
+          <i class="fas fa-exclamation-triangle" style="margin-left:.4rem"></i><span id="uploadErrorMsg"></span>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>عنوان الرسالة *</label><input type="text" id="t_title" class="form-control" placeholder="أدخل عنوان الرسالة كاملاً"></div>
+          <div class="form-group"><label>اسم الباحث *</label><input type="text" id="t_author" class="form-control" placeholder="الاسم الثلاثي"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>القسم *</label>
+            <select id="t_dept" class="form-control">
+              <option value="">— اختر القسم —</option>
+              <option value="nursing">التمريض</option>
+              <option value="emergency">الطوارئ</option>
+              <option value="midwifery">القبالة</option>
+              <option value="anesthesia">التخدير</option>
+            </select>
+          </div>
+          <div class="form-group"><label>سنة التخرج *</label><input type="number" id="t_year" class="form-control" value="2025" min="2000" max="2099"></div>
+        </div>
+        <div class="form-group"><label>المشرف *</label><input type="text" id="t_supervisor" class="form-control" placeholder="د. الاسم الكامل"></div>
+        <div class="form-group"><label>الملخص *</label><textarea id="t_abstract" class="form-control" rows="4" placeholder="ملخص الرسالة..."></textarea></div>
+        <div class="form-group">
+          <label>ملف PDF *</label>
+          <div class="file-drop" id="fileDrop" onclick="document.getElementById('t_file').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p id="drop_hint">انقر لاختيار ملف PDF أو اسحب وأفلت هنا</p>
+            <p style="font-size:.8rem;color:var(--teal);margin-top:.3rem">PDF فقط – الحجم الأقصى 50 ميغابايت</p>
+            <input type="file" id="t_file" accept=".pdf" onchange="handleFile(this)" style="display:none">
+            <div class="file-name" id="fileName" style="margin-top:.5rem;font-weight:600;color:var(--navy)"></div>
+          </div>
+        </div>
+        <div id="uploadProgress" style="display:none;margin-bottom:1rem">
+          <div style="background:#e5e7eb;border-radius:99px;height:8px;overflow:hidden">
+            <div id="progressBar" style="background:var(--teal);height:100%;width:0%;transition:width .3s"></div>
+          </div>
+          <p style="font-size:.85rem;color:var(--gray);margin-top:.5rem" id="progressText">جارٍ الرفع...</p>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="submitThesis()" id="save_t_btn">حفظ الرسالة</button>
+          <button class="btn btn-secondary" onclick="resetThesisForm()">إعادة تعيين</button>
+        </div>
+      </div>
+
+      <!-- Theses Table -->
+      <div class="card-white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h3 style="font-size:1.15rem;color:var(--navy);margin:0">
+            <i class="fas fa-list" style="margin-left:.5rem;color:var(--teal)"></i>جميع رسائل التخرج
+          </h3>
+          <input type="text" id="thesisSearch" class="form-control" style="max-width:240px" placeholder="بحث..." oninput="renderThesesTable()">
+        </div>
+        <div id="thesesLoading" style="text-align:center;padding:2rem;color:var(--gray)">
+          <i class="fas fa-spinner fa-spin"></i> جارٍ التحميل...
+        </div>
+        <div style="overflow-x:auto;display:none" id="thesesTableWrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>العنوان</th><th>الباحث</th><th>القسم</th>
+              <th>السنة</th><th>الملف</th><th>إجراءات</th>
+            </tr></thead>
+            <tbody id="thesesTbody"></tbody>
+          </table>
+        </div>
+        <div id="thesesTableEmpty" style="display:none;text-align:center;padding:2rem;color:var(--gray)">لا توجد رسائل بعد.</div>
+      </div>
+    </div>
+
+    <!-- NEWS SECTION -->
+    <div id="section-news" style="display:none">
+      <h2 id="mg_n_title"></h2><p class="sub" id="mg_n_sub"></p>
+
+      <!-- Add News Form -->
+      <div class="card-white">
+        <h3 style="font-size:1.15rem;color:var(--navy);margin-bottom:1.5rem">
+          <i class="fas fa-plus-circle" style="margin-left:.5rem;color:var(--teal)"></i>إضافة خبر جديد
+        </h3>
+        <div id="newsSuccess" class="alert alert-success" style="display:none">
+          <i class="fas fa-check-circle" style="margin-left:.4rem"></i>تم نشر الخبر بنجاح!
+        </div>
+        <div id="newsError" class="alert alert-warn" style="display:none">
+          <i class="fas fa-exclamation-triangle" style="margin-left:.4rem"></i><span id="newsErrorMsg"></span>
+        </div>
+        <div class="form-group"><label>العنوان *</label><input type="text" id="n_title" class="form-control" placeholder="عنوان الخبر"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>التصنيف *</label>
+            <select id="n_category" class="form-control">
+              <option value="">— اختر التصنيف —</option>
+              <option value="أكاديمي">أكاديمي</option>
+              <option value="فعاليات">فعاليات</option>
+              <option value="منشآت">منشآت</option>
+              <option value="شراكات">شراكات</option>
+              <option value="تدريب">تدريب</option>
+              <option value="عام">عام</option>
+            </select>
+          </div>
+          <div class="form-group"><label>التاريخ *</label><input type="date" id="n_date" class="form-control"></div>
+        </div>
+        <div class="form-group"><label>المصدر / الجهة</label><input type="text" id="n_author" class="form-control" placeholder="مثال: الإدارة، قسم التمريض..."></div>
+        <div class="form-group"><label>نص الخبر *</label><textarea id="n_body" class="form-control" rows="5" placeholder="اكتب تفاصيل الخبر هنا..."></textarea></div>
+
+        <!-- Multi-image upload -->
+        <div class="form-group">
+          <label>صور الخبر (اختياري – حتى 5 صور)</label>
+          <div class="file-drop" id="imgDrop" onclick="document.getElementById('n_images').click()" style="padding:1.2rem">
+            <i class="fas fa-images" style="font-size:1.6rem;color:var(--teal);margin-bottom:.5rem;display:block"></i>
+            <p style="margin:0;font-size:.9rem;color:var(--gray)">انقر لاختيار صور أو اسحب وأفلت هنا</p>
+            <p style="font-size:.78rem;color:var(--teal);margin-top:.3rem">JPG، PNG، WebP – حتى 5 صور – الحجم الأقصى 3 ميغابايت للصورة</p>
+            <input type="file" id="n_images" accept="image/*" multiple onchange="handleImagesSelected(this)" style="display:none">
+          </div>
+          <div id="imgPreviewsGrid" style="display:none;margin-top:.8rem;display:flex;gap:.6rem;flex-wrap:wrap"></div>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="submitNews()" id="pub_btn">نشر الخبر</button>
+          <button class="btn btn-secondary" onclick="resetNewsForm()">إعادة تعيين</button>
+        </div>
+      </div>
+
+      <!-- News Table -->
+      <div class="card-white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h3 style="font-size:1.15rem;color:var(--navy);margin:0">
+            <i class="fas fa-list" style="margin-left:.5rem;color:var(--teal)"></i>جميع الأخبار
+          </h3>
+          <input type="text" id="newsSearch" class="form-control" style="max-width:240px" placeholder="بحث..." oninput="renderNewsTable()">
+        </div>
+        <div id="newsLoading" style="text-align:center;padding:2rem;color:var(--gray)">
+          <i class="fas fa-spinner fa-spin"></i> جارٍ التحميل...
+        </div>
+        <div style="overflow-x:auto;display:none" id="newsTableWrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>العنوان</th><th>صورة</th><th>التصنيف</th><th>التاريخ</th><th>المصدر</th><th>إجراءات</th>
+            </tr></thead>
+            <tbody id="newsTbody"></tbody>
+          </table>
+        </div>
+        <div id="newsTableEmpty" style="display:none;text-align:center;padding:2rem;color:var(--gray)">لا توجد أخبار بعد.</div>
+      </div>
+    </div>
+
+    <!-- BULLETIN SECTION -->
+    <div id="section-bulletin" style="display:none">
+      <h2 id="mg_b_title"></h2><p class="sub" id="mg_b_sub"></p>
+
+      <!-- Upload Form -->
+      <div class="card-white">
+        <h3 style="font-size:1.15rem;color:var(--navy);margin-bottom:1.5rem">
+          <i class="fas fa-upload" style="margin-left:.5rem;color:var(--teal)"></i><span id="ub_title"></span>
+        </h3>
+        <div id="bulletinSuccess" class="alert alert-success" style="display:none">
+          <i class="fas fa-check-circle" style="margin-left:.4rem"></i>تم رفع الإصدار بنجاح!
+        </div>
+        <div id="bulletinError" class="alert alert-warn" style="display:none">
+          <i class="fas fa-exclamation-triangle" style="margin-left:.4rem"></i><span id="bulletinErrorMsg"></span>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>عنوان الإصدار *</label><input type="text" id="b_title" class="form-control" placeholder="مثال: مجلة المعهد – العدد الأول"></div>
+          <div class="form-group"><label>رقم العدد</label><input type="text" id="b_issue" class="form-control" placeholder="مثال: 1"></div>
+        </div>
+        <div class="form-group"><label>تاريخ الإصدار *</label><input type="date" id="b_date" class="form-control"></div>
+        <div class="form-group"><label>وصف مختصر</label><textarea id="b_desc" class="form-control" rows="3" placeholder="نظرة سريعة عن محتوى هذا العدد..."></textarea></div>
+        <div class="form-group">
+          <label>ملف PDF *</label>
+          <div class="file-drop" id="bulletinFileDrop" onclick="document.getElementById('b_file').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>انقر لاختيار ملف PDF أو اسحب وأفلت هنا</p>
+            <p style="font-size:.8rem;color:var(--teal);margin-top:.3rem">PDF فقط – الحجم الأقصى 50 ميغابايت</p>
+            <input type="file" id="b_file" accept=".pdf" onchange="handleBulletinFile(this)" style="display:none">
+            <div class="file-name" id="bulletinFileName" style="margin-top:.5rem;font-weight:600;color:var(--navy)"></div>
+          </div>
+        </div>
+        <div id="bulletinProgress" style="display:none;margin-bottom:1rem">
+          <div style="background:#e5e7eb;border-radius:99px;height:8px;overflow:hidden">
+            <div id="bulletinProgressBar" style="background:var(--teal);height:100%;width:0%;transition:width .3s"></div>
+          </div>
+          <p style="font-size:.85rem;color:var(--gray);margin-top:.5rem" id="bulletinProgressText">جارٍ الرفع...</p>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="submitBulletin()" id="save_b_btn">حفظ الإصدار</button>
+          <button class="btn btn-secondary" onclick="resetBulletinForm()">إعادة تعيين</button>
+        </div>
+      </div>
+
+      <!-- Bulletins Table -->
+      <div class="card-white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h3 style="font-size:1.15rem;color:var(--navy);margin:0">
+            <i class="fas fa-list" style="margin-left:.5rem;color:var(--teal)"></i>جميع إصدارات المجلة
+          </h3>
+          <input type="text" id="bulletinSearch" class="form-control" style="max-width:240px" placeholder="بحث..." oninput="renderBulletinsTable()">
+        </div>
+        <div id="bulletinsLoading" style="text-align:center;padding:2rem;color:var(--gray)">
+          <i class="fas fa-spinner fa-spin"></i> جارٍ التحميل...
+        </div>
+        <div style="overflow-x:auto;display:none" id="bulletinsTableWrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>العنوان</th><th>العدد</th><th>التاريخ</th><th>الملف</th><th>إجراءات</th>
+            </tr></thead>
+            <tbody id="bulletinsTbody"></tbody>
+          </table>
+        </div>
+        <div id="bulletinsTableEmpty" style="display:none;text-align:center;padding:2rem;color:var(--gray)">لا توجد إصدارات بعد.</div>
+      </div>
+    </div>
+
+
+    <!-- STAFF SECTION -->
+    <div id="section-staff" style="display:none">
+      <h2 id="mg_s_title"></h2><p class="sub" id="mg_s_sub"></p>
+
+      <!-- Add Form -->
+      <div class="card-white">
+        <h3 style="font-size:1.15rem;color:var(--navy);margin-bottom:1.5rem">
+          <i class="fas fa-user-plus" style="margin-left:.5rem;color:var(--teal)"></i><span id="as_title"></span>
+        </h3>
+        <div id="staffSuccess" class="alert alert-success" style="display:none">
+          <i class="fas fa-check-circle" style="margin-left:.4rem"></i><span id="staff_ok_msg"></span>
+        </div>
+        <div id="staffError" class="alert alert-warn" style="display:none">
+          <i class="fas fa-exclamation-triangle" style="margin-left:.4rem"></i><span id="staffErrorMsg"></span>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label id="s_name_lbl"></label><input type="text" id="s_name" class="form-control" placeholder="الاسم الثلاثي كاملاً"></div>
+          <div class="form-group"><label id="s_title_lbl"></label><input type="text" id="s_title_inp" class="form-control" placeholder="مثال: دكتوراه في التمريض، محاضر أول"></div>
+        </div>
+        <div class="form-group"><label id="s_dept_lbl"></label><input type="text" id="s_dept" class="form-control" placeholder="مثال: قسم التمريض، الإدارة العامة"></div>
+        <div class="form-group">
+          <label id="s_photo_lbl"></label>
+          <div class="file-drop" id="staffPhotoDrop" onclick="document.getElementById('s_photo').click()" style="padding:1.2rem">
+            <i class="fas fa-camera" style="font-size:1.6rem;color:var(--teal);margin-bottom:.5rem;display:block"></i>
+            <p style="margin:0;font-size:.9rem;color:var(--gray)">انقر لاختيار صورة شخصية أو اسحب وأفلت هنا</p>
+            <p style="font-size:.78rem;color:var(--teal);margin-top:.3rem">JPG، PNG – الحجم الأقصى 3 ميغابايت</p>
+            <input type="file" id="s_photo" accept="image/*" onchange="handleStaffPhoto(this)" style="display:none">
+          </div>
+          <div id="staffPhotoPreviewWrap" style="display:none;margin-top:.8rem;position:relative;display:inline-block">
+            <img id="staffPhotoPreview" style="width:120px;height:150px;object-fit:cover;object-position:top;border-radius:8px;border:1px solid var(--border);display:block">
+            <button onclick="clearStaffPhoto()" style="position:absolute;top:-6px;left:-6px;background:#c62828;color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="submitStaff()" id="save_s_btn">إضافة العضو</button>
+          <button class="btn btn-secondary" onclick="resetStaffForm()">إعادة تعيين</button>
+        </div>
+      </div>
+
+      <!-- Staff Table -->
+      <div class="card-white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h3 style="font-size:1.15rem;color:var(--navy);margin:0">
+            <i class="fas fa-list" style="margin-left:.5rem;color:var(--teal)"></i>جميع أعضاء الكادر
+          </h3>
+          <input type="text" id="staffSearch" class="form-control" style="max-width:240px" placeholder="بحث..." oninput="renderStaffTable()">
+        </div>
+        <div id="staffTableLoading" style="text-align:center;padding:2rem;color:var(--gray)">
+          <i class="fas fa-spinner fa-spin"></i> جارٍ التحميل...
+        </div>
+        <div style="overflow-x:auto;display:none" id="staffTableWrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>الصورة</th><th>الاسم</th><th>الدرجة / المسمى</th><th>القسم</th><th>إجراءات</th>
+            </tr></thead>
+            <tbody id="staffTbody"></tbody>
+          </table>
+        </div>
+        <div id="staffTableEmpty" style="display:none;text-align:center;padding:2rem;color:var(--gray)">لا يوجد كادر مضاف بعد.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer id="site-footer" style="display:none"></footer>
+<script <script src="js/app.js"></script><script src="js/layout.js"></script>
+<script>
+
+const DL = {nursing:'التمريض',emergency:'الطوارئ',midwifery:'القبالة',anesthesia:'التخدير'};
+const catLabels = {'منشآت':'منشآت','فعاليات':'فعاليات','أكاديمي':'أكاديمي','شراكات':'شراكات','تدريب':'تدريب','عام':'عام'};
+
+// ===== AUTH =====
+async function doLogin() {
+  const p = document.getElementById('loginPass').value;
+  const btn = document.getElementById('l_btn');
+  btn.disabled = true; btn.textContent = 'جارٍ التحقق...';
+  document.getElementById('loginError').style.display = 'none';
+  const ok = await HHI.login(p);
+  btn.disabled = false; btn.textContent = 'تسجيل الدخول';
+  if (ok) {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'grid';
+    loadThesesTable();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('l_err').textContent = 'كلمة المرور غير صحيحة.';
+  }
+}
+function doLogout() { HHI.logout(); location.reload(); }
+if (HHI.isLoggedIn()) {
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('adminApp').style.display = 'grid';
+}
+
+// ===== SECTION SWITCHING =====
+function showSection(name) {
+  ['theses','news','bulletin','staff'].forEach(s => {
+    document.getElementById('section-'+s).style.display = s===name ? 'block' : 'none';
+    document.getElementById('nav-'+s).classList.toggle('active', s===name);
+  });
+  if (name==='theses') loadThesesTable();
+  if (name==='news') { loadNewsTable(); document.getElementById('n_date').valueAsDate = new Date(); }
+  if (name==='bulletin') { loadBulletinsTable(); document.getElementById('b_date').valueAsDate = new Date(); }
+  if (name==='staff') loadStaffTable();
+}
+
+// ===== THESIS FILE HANDLING =====
+function handleFile(input) {
+  const f = input.files[0];
+  if (f) document.getElementById('fileName').textContent = f.name + ' (' + (f.size/1024/1024).toFixed(2) + ' MB)';
+}
+const drop = document.getElementById('fileDrop');
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+drop.addEventListener('drop', e => {
+  e.preventDefault(); drop.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type==='application/pdf') {
+    const dt = new DataTransfer(); dt.items.add(f);
+    document.getElementById('t_file').files = dt.files;
+    document.getElementById('fileName').textContent = f.name + ' (' + (f.size/1024/1024).toFixed(2) + ' MB)';
+  }
+});
+
+async function submitThesis() {
+  const title = document.getElementById('t_title').value.trim();
+  const author = document.getElementById('t_author').value.trim();
+  const dept = document.getElementById('t_dept').value;
+  const year = parseInt(document.getElementById('t_year').value);
+  const supervisor = document.getElementById('t_supervisor').value.trim();
+  const abstract = document.getElementById('t_abstract').value.trim();
+  const fileInput = document.getElementById('t_file');
+
+  if (!title||!author||!dept||!year||!supervisor||!abstract) {
+    showAlert('uploadError','uploadErrorMsg','يرجى تعبئة جميع الحقول المطلوبة.'); return;
+  }
+  if (!fileInput.files.length) {
+    showAlert('uploadError','uploadErrorMsg','يرجى اختيار ملف PDF.'); return;
+  }
+
+  const file = fileInput.files[0];
+  const btn = document.getElementById('save_t_btn');
+  btn.disabled = true; btn.textContent = 'جارٍ الرفع...';
+  document.getElementById('uploadProgress').style.display = 'block';
+  document.getElementById('progressBar').style.width = '20%';
+  document.getElementById('progressText').textContent = 'جارٍ رفع الملف إلى Supabase...';
+  document.getElementById('uploadError').style.display = 'none';
+
+  try {
+    document.getElementById('progressBar').style.width = '50%';
+    const fileUrl = await HHI.uploadPDF(file);
+    document.getElementById('progressBar').style.width = '80%';
+    document.getElementById('progressText').textContent = 'جارٍ حفظ البيانات...';
+
+    await HHI.addThesis({
+      title, author, department: dept, year, supervisor, abstract,
+      filename: file.name,
+      filesize: (file.size/1024/1024).toFixed(2) + ' MB',
+      file_url: fileUrl,
+      uploaded: new Date().toISOString().split('T')[0]
+    });
+
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('progressText').textContent = 'تم بنجاح!';
+    setTimeout(() => { document.getElementById('uploadProgress').style.display = 'none'; }, 1000);
+
+    document.getElementById('uploadSuccess').style.display = 'block';
+    setTimeout(() => document.getElementById('uploadSuccess').style.display = 'none', 4000);
+    resetThesisForm();
+    loadThesesTable();
+  } catch(err) {
+    document.getElementById('uploadProgress').style.display = 'none';
+    showAlert('uploadError','uploadErrorMsg', 'فشل الرفع: ' + err.message);
+  }
+  btn.disabled = false; btn.textContent = 'حفظ الرسالة';
+}
+
+function resetThesisForm() {
+  ['t_title','t_author','t_supervisor','t_abstract'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('t_dept').value = '';
+  document.getElementById('t_year').value = '2025';
+  document.getElementById('t_file').value = '';
+  document.getElementById('fileName').textContent = '';
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('progressBar').style.width = '0%';
+}
+
+async function deleteThesis(id) {
+  if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+  try {
+    await HHI.deleteThesis(id);
+    loadThesesTable();
+  } catch(e) {
+    alert('فشل الحذف: ' + e.message);
+  }
+}
+
+async function loadThesesTable() {
+  document.getElementById('thesesLoading').style.display = 'block';
+  document.getElementById('thesesTableWrap').style.display = 'none';
+  try {
+    const list = await HHI.getTheses();
+    document.getElementById('thesesLoading').style.display = 'none';
+    renderThesesTable(list);
+  } catch(e) {
+    document.getElementById('thesesLoading').textContent = 'فشل التحميل: ' + e.message;
+  }
+}
+
+function renderThesesTable(list) {
+  if (!list) return;
+  const q = (document.getElementById('thesisSearch').value||'').toLowerCase();
+  let filtered = list.filter(tt => !q || tt.title.toLowerCase().includes(q) || tt.author.toLowerCase().includes(q));
+  const tbody = document.getElementById('thesesTbody');
+  const empty = document.getElementById('thesesTableEmpty');
+  const wrap = document.getElementById('thesesTableWrap');
+  if (!filtered.length) { wrap.style.display='none'; empty.style.display='block'; return; }
+  empty.style.display = 'none'; wrap.style.display = 'block';
+  tbody.innerHTML = filtered.map(tt => `
+    <tr>
+      <td style="max-width:240px"><strong style="font-size:.9rem">${escHtml(tt.title)}</strong></td>
+      <td style="font-size:.9rem">${escHtml(tt.author)}</td>
+      <td><span class="tag-pill thesis-tag ${tt.department}">${DL[tt.department]||tt.department}</span></td>
+      <td style="font-size:.9rem">${tt.year}</td>
+      <td style="font-size:.85rem">
+        ${tt.file_url
+          ? `<a href="${escHtml(tt.file_url)}" target="_blank" style="color:var(--teal)"><i class="fas fa-file-pdf"></i> ${escHtml(tt.filename||'PDF')}</a>`
+          : `<span style="color:#9ca3af"><i class="fas fa-times-circle"></i> لا يوجد</span>`}
+      </td>
+      <td>
+        <button onclick="deleteThesis(${tt.id})" class="btn btn-sm" style="background:#fce4ec;color:#c62828;border:none">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>`).join('');
+}
+
+// ===== NEWS MULTI-IMAGE HANDLING =====
+let _newsImageFiles = []; // holds File objects
+
+function handleImagesSelected(input) {
+  const newFiles = Array.from(input.files);
+  for (const f of newFiles) {
+    if (_newsImageFiles.length >= 5) { alert('الحد الأقصى 5 صور لكل خبر.'); break; }
+    if (f.size > 3 * 1024 * 1024) { alert(`الصورة "${f.name}" تتجاوز 3 ميغابايت.`); continue; }
+    _newsImageFiles.push(f);
+  }
+  input.value = ''; // reset so same file can be re-added
+  renderImagePreviews();
+}
+
+function renderImagePreviews() {
+  const grid = document.getElementById('imgPreviewsGrid');
+  if (!_newsImageFiles.length) { grid.style.display = 'none'; grid.innerHTML = ''; return; }
+  grid.style.display = 'flex';
+  grid.innerHTML = _newsImageFiles.map((f, i) => {
+    const url = URL.createObjectURL(f);
+    return `<div style="position:relative">
+      <img src="${url}" style="width:90px;height:70px;object-fit:cover;border-radius:6px;border:1px solid var(--border);display:block">
+      <button onclick="removeImage(${i})" style="position:absolute;top:-6px;left:-6px;background:#c62828;color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button>
+      ${i===0 ? `<span style="position:absolute;bottom:2px;right:2px;background:var(--teal);color:#fff;font-size:.6rem;padding:1px 4px;border-radius:3px">رئيسية</span>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function removeImage(i) {
+  _newsImageFiles.splice(i, 1);
+  renderImagePreviews();
+}
+
+const imgDrop = document.getElementById('imgDrop');
+imgDrop.addEventListener('dragover', e => { e.preventDefault(); imgDrop.classList.add('drag'); });
+imgDrop.addEventListener('dragleave', () => imgDrop.classList.remove('drag'));
+imgDrop.addEventListener('drop', e => {
+  e.preventDefault(); imgDrop.classList.remove('drag');
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  if (files.length) {
+    const dt = new DataTransfer();
+    files.forEach(f => dt.items.add(f));
+    document.getElementById('n_images').files = dt.files;
+    handleImagesSelected(document.getElementById('n_images'));
+  }
+});
+
+async function submitNews() {
+  const title = document.getElementById('n_title').value.trim();
+  const category = document.getElementById('n_category').value;
+  const date = document.getElementById('n_date').value;
+  const body = document.getElementById('n_body').value.trim();
+  if (!title || !category || !date || !body) {
+    showAlert('newsError','newsErrorMsg','يرجى تعبئة جميع الحقول المطلوبة.'); return;
+  }
+  const btn = document.getElementById('pub_btn');
+  btn.disabled = true; btn.textContent = 'جارٍ النشر...';
+  document.getElementById('newsError').style.display = 'none';
+  try {
+    // Upload all images to Storage
+    let imageUrls = [];
+    if (_newsImageFiles.length) {
+      btn.textContent = `جارٍ رفع الصور (0/${_newsImageFiles.length})...`;
+      for (let i = 0; i < _newsImageFiles.length; i++) {
+        btn.textContent = `جارٍ رفع الصور (${i+1}/${_newsImageFiles.length})...`;
+        const url = await HHI.uploadNewsImage(_newsImageFiles[i]);
+        imageUrls.push(url);
+      }
+    }
+    btn.textContent = 'جارٍ حفظ الخبر...';
+    await HHI.addNews({
+      title, category, date, body,
+      author: document.getElementById('n_author').value.trim() || 'الإدارة',
+      image: imageUrls[0] || null,     // first image as thumbnail (backward compat)
+      images: imageUrls                 // full array in new column
+    });
+    document.getElementById('newsSuccess').style.display = 'block';
+    setTimeout(() => document.getElementById('newsSuccess').style.display = 'none', 3500);
+    resetNewsForm();
+    loadNewsTable();
+  } catch(e) {
+    showAlert('newsError','newsErrorMsg','فشل النشر: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = 'نشر الخبر';
+}
+
+function resetNewsForm() {
+  ['n_title','n_author','n_body'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('n_category').value = '';
+  document.getElementById('n_date').valueAsDate = new Date();
+  _newsImageFiles = [];
+  renderImagePreviews();
+}
+
+async function deleteNews(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا الخبر؟')) return;
+  try {
+    await HHI.deleteNews(id);
+    loadNewsTable();
+  } catch(e) { alert('فشل الحذف: ' + e.message); }
+}
+
+async function loadNewsTable() {
+  document.getElementById('newsLoading').style.display = 'block';
+  document.getElementById('newsTableWrap').style.display = 'none';
+  try {
+    const list = await HHI.getNews();
+    document.getElementById('newsLoading').style.display = 'none';
+    renderNewsTable(list);
+  } catch(e) {
+    document.getElementById('newsLoading').textContent = 'فشل التحميل: ' + e.message;
+  }
+}
+
+function renderNewsTable(list) {
+  if (!list) return;
+  const q = (document.getElementById('newsSearch').value||'').toLowerCase();
+  let filtered = list.filter(n => !q || n.title.toLowerCase().includes(q));
+  const tbody = document.getElementById('newsTbody');
+  const empty = document.getElementById('newsTableEmpty');
+  const wrap = document.getElementById('newsTableWrap');
+  if (!filtered.length) { wrap.style.display='none'; empty.style.display='block'; return; }
+  empty.style.display = 'none'; wrap.style.display = 'block';
+  tbody.innerHTML = filtered.map(n => `
+    <tr>
+      <td style="max-width:260px;font-size:.9rem"><strong>${escHtml(n.title)}</strong></td>
+      <td style="text-align:center">
+        ${n.images && n.images.length
+          ? `<span style="color:var(--teal);font-size:.85rem"><i class="fas fa-images"></i> ${n.images.length}</span>`
+          : n.image
+            ? `<img src="${n.image}" style="width:48px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">`
+            : `<span style="color:#9ca3af;font-size:.75rem">—</span>`}
+      </td>
+      <td><span class="tag-pill" style="background:var(--teal-pale);color:var(--teal)">${escHtml(catLabels[n.category]||n.category)}</span></td>
+      <td style="font-size:.85rem;white-space:nowrap">${formatDate(n.date)}</td>
+      <td style="font-size:.85rem">${escHtml(n.author||'الإدارة')}</td>
+      <td>
+        <button onclick="deleteNews(${n.id})" class="btn btn-sm" style="background:#fce4ec;color:#c62828;border:none">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>`).join('');
+}
+
+// ===== BULLETIN FILE HANDLING =====
+function handleBulletinFile(input) {
+  const f = input.files[0];
+  if (f) document.getElementById('bulletinFileName').textContent = f.name + ' (' + (f.size/1024/1024).toFixed(2) + ' MB)';
+}
+const bDrop = document.getElementById('bulletinFileDrop');
+bDrop.addEventListener('dragover', e => { e.preventDefault(); bDrop.classList.add('drag'); });
+bDrop.addEventListener('dragleave', () => bDrop.classList.remove('drag'));
+bDrop.addEventListener('drop', e => {
+  e.preventDefault(); bDrop.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type==='application/pdf') {
+    const dt = new DataTransfer(); dt.items.add(f);
+    document.getElementById('b_file').files = dt.files;
+    document.getElementById('bulletinFileName').textContent = f.name + ' (' + (f.size/1024/1024).toFixed(2) + ' MB)';
+  }
+});
+
+async function submitBulletin() {
+  const title = document.getElementById('b_title').value.trim();
+  const issue_number = document.getElementById('b_issue').value.trim();
+  const date = document.getElementById('b_date').value;
+  const description = document.getElementById('b_desc').value.trim();
+  const fileInput = document.getElementById('b_file');
+
+  if (!title || !date) {
+    showAlert('bulletinError','bulletinErrorMsg','يرجى تعبئة عنوان الإصدار والتاريخ.'); return;
+  }
+  if (!fileInput.files.length) {
+    showAlert('bulletinError','bulletinErrorMsg','يرجى اختيار ملف PDF.'); return;
+  }
+
+  const file = fileInput.files[0];
+  const btn = document.getElementById('save_b_btn');
+  btn.disabled = true; btn.textContent = 'جارٍ الرفع...';
+  document.getElementById('bulletinProgress').style.display = 'block';
+  document.getElementById('bulletinProgressBar').style.width = '20%';
+  document.getElementById('bulletinProgressText').textContent = 'جارٍ رفع الملف إلى Supabase...';
+  document.getElementById('bulletinError').style.display = 'none';
+
+  try {
+    document.getElementById('bulletinProgressBar').style.width = '50%';
+    const fileUrl = await HHI.uploadBulletinPDF(file);
+    document.getElementById('bulletinProgressBar').style.width = '80%';
+    document.getElementById('bulletinProgressText').textContent = 'جارٍ حفظ البيانات...';
+
+    await HHI.addBulletin({
+      title, issue_number: issue_number || null, date, description: description || null,
+      filename: file.name,
+      filesize: (file.size/1024/1024).toFixed(2) + ' MB',
+      file_url: fileUrl
+    });
+
+    document.getElementById('bulletinProgressBar').style.width = '100%';
+    document.getElementById('bulletinProgressText').textContent = 'تم بنجاح!';
+    setTimeout(() => { document.getElementById('bulletinProgress').style.display = 'none'; }, 1000);
+
+    document.getElementById('bulletinSuccess').style.display = 'block';
+    setTimeout(() => document.getElementById('bulletinSuccess').style.display = 'none', 4000);
+    resetBulletinForm();
+    loadBulletinsTable();
+  } catch(err) {
+    document.getElementById('bulletinProgress').style.display = 'none';
+    showAlert('bulletinError','bulletinErrorMsg', 'فشل الرفع: ' + err.message);
+  }
+  btn.disabled = false; btn.textContent = 'حفظ الإصدار';
+}
+
+function resetBulletinForm() {
+  document.getElementById('b_title').value = '';
+  document.getElementById('b_issue').value = '';
+  document.getElementById('b_desc').value = '';
+  document.getElementById('b_date').valueAsDate = new Date();
+  document.getElementById('sb_staff').textContent = 'كادر المعهد';
+  document.getElementById('mg_s_title').textContent = 'إدارة كادر المعهد';
+  document.getElementById('mg_s_sub').textContent = 'إضافة وحذف أعضاء الكادر الأكاديمي والإداري';
+  document.getElementById('as_title').textContent = 'إضافة عضو جديد';
+  document.getElementById('s_name_lbl').textContent = 'الاسم الكامل';
+  document.getElementById('s_title_lbl').textContent = 'الدرجة العلمية / المسمى الوظيفي';
+  document.getElementById('s_dept_lbl').textContent = 'القسم / الوحدة';
+  document.getElementById('s_photo_lbl').textContent = 'الصورة الشخصية';
+  document.getElementById('b_file').value = '';
+  document.getElementById('bulletinFileName').textContent = '';
+  document.getElementById('bulletinProgress').style.display = 'none';
+  document.getElementById('bulletinProgressBar').style.width = '0%';
+}
+
+async function deleteBulletin(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا الإصدار؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+  try {
+    await HHI.deleteBulletin(id);
+    loadBulletinsTable();
+  } catch(e) {
+    alert('فشل الحذف: ' + e.message);
+  }
+}
+
+async function loadBulletinsTable() {
+  document.getElementById('bulletinsLoading').style.display = 'block';
+  document.getElementById('bulletinsTableWrap').style.display = 'none';
+  try {
+    const list = await HHI.getBulletins();
+    document.getElementById('bulletinsLoading').style.display = 'none';
+    renderBulletinsTable(list);
+  } catch(e) {
+    document.getElementById('bulletinsLoading').textContent = 'فشل التحميل: ' + e.message;
+  }
+}
+
+function renderBulletinsTable(list) {
+  if (!list) return;
+  const q = (document.getElementById('bulletinSearch').value||'').toLowerCase();
+  let filtered = list.filter(b => !q || b.title.toLowerCase().includes(q));
+  const tbody = document.getElementById('bulletinsTbody');
+  const empty = document.getElementById('bulletinsTableEmpty');
+  const wrap = document.getElementById('bulletinsTableWrap');
+  if (!filtered.length) { wrap.style.display='none'; empty.style.display='block'; return; }
+  empty.style.display = 'none'; wrap.style.display = 'block';
+  tbody.innerHTML = filtered.map(b => `
+    <tr>
+      <td style="max-width:240px"><strong style="font-size:.9rem">${escHtml(b.title)}</strong></td>
+      <td style="font-size:.9rem">${escHtml(b.issue_number||'—')}</td>
+      <td style="font-size:.9rem;white-space:nowrap">${formatDate(b.date)}</td>
+      <td style="font-size:.85rem">
+        ${b.file_url
+          ? `<a href="${escHtml(b.file_url)}" target="_blank" style="color:var(--teal)"><i class="fas fa-file-pdf"></i> ${escHtml(b.filename||'PDF')}</a>`
+          : `<span style="color:#9ca3af"><i class="fas fa-times-circle"></i> لا يوجد</span>`}
+      </td>
+      <td>
+        <button onclick="deleteBulletin(${b.id})" class="btn btn-sm" style="background:#fce4ec;color:#c62828;border:none">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>`).join('');
+}
+
+
+// ===== STAFF MANAGEMENT =====
+let _staffPhotoFile = null;
+
+function handleStaffPhoto(input) {
+  const f = input.files[0]; if (!f) return;
+  if (f.size > 3*1024*1024) { alert('حجم الصورة يتجاوز 3 ميغابايت.'); return; }
+  _staffPhotoFile = f;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('staffPhotoPreview').src = e.target.result;
+    document.getElementById('staffPhotoPreviewWrap').style.display = 'inline-block';
+  };
+  reader.readAsDataURL(f);
+}
+
+const staffPhotoDrop = document.getElementById('staffPhotoDrop');
+staffPhotoDrop.addEventListener('dragover', e => { e.preventDefault(); staffPhotoDrop.classList.add('drag'); });
+staffPhotoDrop.addEventListener('dragleave', () => staffPhotoDrop.classList.remove('drag'));
+staffPhotoDrop.addEventListener('drop', e => {
+  e.preventDefault(); staffPhotoDrop.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) {
+    const dt = new DataTransfer(); dt.items.add(f);
+    document.getElementById('s_photo').files = dt.files;
+    handleStaffPhoto(document.getElementById('s_photo'));
+  }
+});
+
+function clearStaffPhoto() {
+  _staffPhotoFile = null;
+  document.getElementById('s_photo').value = '';
+  document.getElementById('staffPhotoPreviewWrap').style.display = 'none';
+  document.getElementById('staffPhotoPreview').src = '';
+}
+
+async function submitStaff() {
+  const name = document.getElementById('s_name').value.trim();
+  const title = document.getElementById('s_title_inp').value.trim();
+  const dept = document.getElementById('s_dept').value.trim();
+  if (!name || !title) {
+    showAlert('staffError','staffErrorMsg','يرجى إدخال الاسم والدرجة العلمية على الأقل.'); return;
+  }
+  const btn = document.getElementById('save_s_btn');
+  btn.disabled = true; btn.textContent = 'جارٍ الحفظ...';
+  document.getElementById('staffError').style.display = 'none';
+  try {
+    let photoUrl = null;
+    if (_staffPhotoFile) {
+      btn.textContent = 'جارٍ رفع الصورة...';
+      photoUrl = await HHI.uploadStaffPhoto(_staffPhotoFile);
+    }
+    await HHI.addStaff({ name, title, department: dept || null, photo_url: photoUrl });
+    document.getElementById('staffSuccess').style.display = 'block';
+    document.getElementById('staff_ok_msg').textContent = 'تم إضافة العضو بنجاح!';
+    setTimeout(() => document.getElementById('staffSuccess').style.display = 'none', 3500);
+    resetStaffForm();
+    loadStaffTable();
+  } catch(e) {
+    showAlert('staffError','staffErrorMsg', 'فشل الحفظ: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = 'إضافة العضو';
+}
+
+function resetStaffForm() {
+  document.getElementById('s_name').value = '';
+  document.getElementById('s_title_inp').value = '';
+  document.getElementById('s_dept').value = '';
+  clearStaffPhoto();
+}
+
+async function deleteStaff(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا العضو؟')) return;
+  try {
+    await HHI.deleteStaff(id);
+    loadStaffTable();
+  } catch(e) { alert('فشل الحذف: ' + e.message); }
+}
+
+let _allStaff = [];
+async function loadStaffTable() {
+  document.getElementById('staffTableLoading').style.display = 'block';
+  document.getElementById('staffTableWrap').style.display = 'none';
+  try {
+    _allStaff = await HHI.getStaff();
+    document.getElementById('staffTableLoading').style.display = 'none';
+    renderStaffTable();
+  } catch(e) {
+    document.getElementById('staffTableLoading').textContent = 'فشل التحميل: ' + e.message;
+  }
+}
+
+function renderStaffTable() {
+  const q = (document.getElementById('staffSearch').value||'').toLowerCase();
+  let filtered = _allStaff.filter(s => !q || s.name.toLowerCase().includes(q) || (s.department||'').toLowerCase().includes(q));
+  const tbody = document.getElementById('staffTbody');
+  const empty = document.getElementById('staffTableEmpty');
+  const wrap = document.getElementById('staffTableWrap');
+  if (!filtered.length) { wrap.style.display='none'; empty.style.display='block'; return; }
+  empty.style.display = 'none'; wrap.style.display = 'block';
+  tbody.innerHTML = filtered.map(s => `
+    <tr>
+      <td style="width:56px">
+        ${s.photo_url
+          ? `<img src="${escHtml(s.photo_url)}" style="width:48px;height:60px;object-fit:cover;object-position:top;border-radius:6px;border:1px solid var(--border);display:block">`
+          : `<div style="width:48px;height:60px;background:var(--teal-pale);border-radius:6px;display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:var(--teal)"></i></div>`}
+      </td>
+      <td><strong style="font-size:.9rem">${escHtml(s.name)}</strong></td>
+      <td style="font-size:.85rem;color:var(--teal)">${escHtml(s.title||'—')}</td>
+      <td style="font-size:.85rem">${escHtml(s.department||'—')}</td>
+      <td>
+        <button onclick="deleteStaff(${s.id})" class="btn btn-sm" style="background:#fce4ec;color:#c62828;border:none">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>`).join('');
+}
+
+// ===== HELPERS =====
+function showAlert(divId, msgId, msg) {
+  document.getElementById(divId).style.display = 'block';
+  if (msgId) document.getElementById(msgId).textContent = msg;
+  setTimeout(() => document.getElementById(divId).style.display = 'none', 5000);
+}
+
+// ===== RENDER PAGE =====
+function renderPage() {
+  renderHeader('admin.html');
+  document.getElementById('l_title').textContent = 'بوابة الإدارة';
+  document.getElementById('l_sub').textContent = 'معهد الصحة العالي  / واسط';
+  document.getElementById('l_pass_lbl').textContent = 'كلمة المرور';
+  document.getElementById('l_btn').textContent = 'تسجيل الدخول';
+  document.getElementById('l_back').textContent = '← العودة إلى الموقع';
+  document.getElementById('l_back').href = 'index.html';
+  document.getElementById('sb_content').textContent = 'المحتوى';
+  document.getElementById('sb_system').textContent = 'النظام';
+  document.getElementById('sb_theses').textContent = 'رسائل التخرج';
+  document.getElementById('sb_news').textContent = 'الأخبار';
+  document.getElementById('sb_viewsite').textContent = 'عرض الموقع';
+  document.getElementById('sb_logout').textContent = 'تسجيل الخروج';
+  document.getElementById('mg_t_title').textContent = 'إدارة رسائل التخرج';
+  document.getElementById('mg_t_sub').textContent = 'رفع رسائل تخرج جديدة وإدارة الأرشيف.';
+  document.getElementById('up_title').textContent = 'رفع رسالة جديدة';
+  document.getElementById('mg_n_title').textContent = 'إدارة الأخبار';
+  document.getElementById('mg_n_sub').textContent = 'إضافة إعلانات جديدة وإدارة الأخبار الحالية.';
+  document.getElementById('n_date').valueAsDate = new Date();
+  document.getElementById('sb_bulletin').textContent = 'مجلة المعهد';
+  document.getElementById('mg_b_title').textContent = 'إدارة مجلة المعهد';
+  document.getElementById('mg_b_sub').textContent = 'رفع وإدارة إصدارات مجلة المعهد';
+  document.getElementById('ub_title').textContent = 'رفع إصدار جديد';
+  document.getElementById('b_date').valueAsDate = new Date();
+  document.getElementById('sb_staff').textContent = 'كادر المعهد';
+  document.getElementById('mg_s_title').textContent = 'إدارة كادر المعهد';
+  document.getElementById('mg_s_sub').textContent = 'إضافة وحذف أعضاء الكادر الأكاديمي والإداري';
+  document.getElementById('as_title').textContent = 'إضافة عضو جديد';
+  document.getElementById('s_name_lbl').textContent = 'الاسم الكامل';
+  document.getElementById('s_title_lbl').textContent = 'الدرجة العلمية / المسمى الوظيفي';
+  document.getElementById('s_dept_lbl').textContent = 'القسم / الوحدة';
+  document.getElementById('s_photo_lbl').textContent = 'الصورة الشخصية';
+  document.body.classList.add('rtl');
+  document.documentElement.dir = 'rtl';
+  document.documentElement.lang = 'ar';
+  document.title = 'بوابة الإدارة – المعهد الصحي العالي واسط';
+  if (HHI.isLoggedIn()) loadThesesTable();
+}
+renderPage();
+</script>
+</body>
+</html>

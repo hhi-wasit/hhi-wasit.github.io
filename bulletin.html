@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مجلة المعهد – المعهد الصحي العالي واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+<div class="page-header">
+  <h1 id="ph_t"></h1><p id="ph_s"></p>
+  <div class="breadcrumb"><a href="index.html" id="bc_home"></a><span>/</span><span id="bc_cur"></span></div>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="alert alert-info" id="notice_txt"></div>
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="ابحث بالعنوان أو الوصف...">
+      <select id="sortBy">
+        <option value="date-desc">الأحدث أولاً</option>
+        <option value="date-asc">الأقدم أولاً</option>
+      </select>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem">
+      <div style="text-align:center;padding:1rem 1.5rem;background:var(--teal-pale);border-radius:var(--radius);min-width:110px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--navy)" id="totalCount">—</div>
+        <div style="font-size:.8rem;color:var(--gray)">إجمالي الإصدارات</div>
+      </div>
+    </div>
+
+    <div id="loadingBulletins" style="text-align:center;padding:3rem;color:var(--gray)">
+      <i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:1rem">جارٍ تحميل إصدارات المجلة...</p>
+    </div>
+    <div id="bulletinsGrid" class="news-grid" style="display:none"></div>
+    <div id="noResults" style="display:none;text-align:center;padding:3rem;color:var(--gray)">
+      <i class="fas fa-book-open" style="font-size:2rem;margin-bottom:1rem;display:block;opacity:.4"></i>
+      <span id="no_res_txt"></span>
+    </div>
+  </div>
+</section>
+
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script><script src="js/layout.js"></script>
+<script>
+let _allBulletins = [];
+
+async function loadBulletins() {
+  try {
+    _allBulletins = await HHI.getBulletins();
+    document.getElementById('loadingBulletins').style.display = 'none';
+    document.getElementById('bulletinsGrid').style.display = 'grid';
+    document.getElementById('totalCount').textContent = _allBulletins.length;
+    render();
+  } catch(e) {
+    document.getElementById('loadingBulletins').innerHTML =
+      '<i class="fas fa-exclamation-circle fa-2x" style="color:#c62828"></i><p style="margin-top:1rem;color:#c62828">تعذّر تحميل إصدارات المجلة. تحقق من الاتصال بالإنترنت.</p>';
+  }
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortBy').value;
+  let list = _allBulletins.filter(b => {
+    if (q && !b.title.toLowerCase().includes(q) && !(b.description||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+  if (sort==='date-desc') list.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  else list.sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  const grid = document.getElementById('bulletinsGrid');
+  const none = document.getElementById('noResults');
+  if (!list.length) {
+    grid.innerHTML = '';
+    none.style.display = 'block';
+    document.getElementById('no_res_txt').textContent = _allBulletins.length ? 'لا توجد إصدارات مطابقة لبحثك.' : 'لا توجد إصدارات حتى الآن.';
+    return;
+  }
+  none.style.display = 'none';
+  grid.innerHTML = list.map(b => `
+    <article class="news-card">
+      ${b.cover_image ? `<div class="news-img" style="background-image:url('${escHtml(b.cover_image)}')"></div>` : `<div class="news-img" style="display:flex;align-items:center;justify-content:center;background:var(--teal-pale)"><img src="images/bulletin-logo.png" alt="bulletin logo" style="max-width:100%;max-height:100%;object-fit:contain;"></div>`}
+      <div class="news-body">
+        ${b.issue_number ? `<span class="news-category">العدد ${escHtml(b.issue_number)}</span>` : ''}
+        <h3 class="news-title">${escHtml(b.title)}</h3>
+        <p class="news-excerpt">${escHtml((b.description||'').length>180 ? b.description.substring(0,180)+'…' : (b.description||''))}</p>
+        <div class="news-meta">
+          <span><i class="fas fa-calendar-alt"></i> ${formatDate(b.date)}</span>
+          ${b.filesize ? `<span><i class="fas fa-file-pdf"></i> ${escHtml(b.filesize)}</span>` : ''}
+        </div>
+        <div style="margin-top:1rem">
+          ${b.file_url
+            ? `<a href="${escHtml(b.file_url)}" target="_blank" class="btn btn-secondary btn-sm"><i class="fas fa-download" style="margin-left:.4rem"></i>تحميل المجلة</a>`
+            : `<span class="btn btn-secondary btn-sm" style="opacity:.5;cursor:not-allowed"><i class="fas fa-lock" style="margin-left:.4rem"></i>لا توجد إصدارات حتى الآن.</span>`}
+        </div>
+      </div>
+    </article>`).join('');
+}
+
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('sortBy').addEventListener('change', render);
+
+function renderPage() {
+  renderHeader('bulletin.html'); renderFooter();
+  document.getElementById('ph_t').textContent = 'مجلة المعهد';
+  document.getElementById('ph_s').textContent = 'الإصدارات الدورية لمجلة معهد الصحة العالي  / واسط';
+  document.getElementById('bc_home').textContent = 'الرئيسية';
+  document.getElementById('bc_cur').textContent = 'مجلة المعهد';
+  document.getElementById('notice_txt').innerHTML = 'يحتوي هذا الأرشيف على إصدارات مجلة المعهد. لرفع إصدار جديد، يُرجى استخدام <a href="admin.html"><strong>بوابة الإدارة</strong></a>.';
+  document.body.classList.add('rtl');
+  document.documentElement.dir = 'rtl';
+  document.documentElement.lang = 'ar';
+  document.title = 'مجلة المعهد – المعهد الصحي العالي واسط';
+}
+renderPage();
+loadBulletins();
+</script>
+</body>
+</html>

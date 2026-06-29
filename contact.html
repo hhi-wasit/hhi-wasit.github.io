@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اتصل بنا – المعهد الصحي العالي واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+<div class="page-header">
+  <h1 id="ph_t"></h1><p id="ph_s"></p>
+  <div class="breadcrumb"><a href="index.html" id="bc_home"></a><span>/</span><span id="bc_cur"></span></div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:3rem;align-items:start">
+      <div>
+        <h2 id="git_t"></h2><p id="git_p"></p>
+        <div style="display:flex;flex-direction:column;gap:1.4rem;margin-top:2rem">
+          <div class="card" style="padding:1.2rem 1.5rem">
+            <div style="display:flex;gap:1rem;align-items:center">
+              <div class="card-icon teal" style="flex-shrink:0;width:44px;height:44px;margin:0"><i class="fas fa-map-marker-alt"></i></div>
+              <div><h4 style="font-size:.95rem;margin-bottom:.2rem" id="addr_lbl"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)" id="addr_val"></p></div>
+            </div>
+          </div>
+          <div class="card" style="padding:1.2rem 1.5rem">
+            <div style="display:flex;gap:1rem;align-items:center">
+              <div class="card-icon navy" style="flex-shrink:0;width:44px;height:44px;margin:0"><i class="fas fa-phone"></i></div>
+              <div><h4 style="font-size:.95rem;margin-bottom:.2rem" id="phone_lbl"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)">+964 23 123 4567<br>+964 23 123 4568</p></div>
+            </div>
+          </div>
+          <div class="card" style="padding:1.2rem 1.5rem">
+            <div style="display:flex;gap:1rem;align-items:center">
+              <div class="card-icon accent" style="flex-shrink:0;width:44px;height:44px;margin:0"><i class="fas fa-envelope"></i></div>
+              <div><h4 style="font-size:.95rem;margin-bottom:.2rem" id="email_lbl"></h4><p style="margin:0;font-size:.9rem"><a href="mailto:info@hhi-wasit.edu.iq">info@hhi-wasit.edu.iq</a><br><a href="mailto:admissions@hhi-wasit.edu.iq">admissions@hhi-wasit.edu.iq</a></p></div>
+            </div>
+          </div>
+          <div class="card" style="padding:1.2rem 1.5rem">
+            <div style="display:flex;gap:1rem;align-items:center">
+              <div class="card-icon orange" style="flex-shrink:0;width:44px;height:44px;margin:0"><i class="fas fa-clock"></i></div>
+              <div><h4 style="font-size:.95rem;margin-bottom:.2rem" id="hours_lbl"></h4><p style="margin:0;font-size:.9rem;color:var(--gray)" id="hours_val"></p></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:2rem">
+          <h4 id="dept_c_t"></h4>
+          <table style="width:100%;font-size:.88rem;margin-top:.75rem;border-collapse:collapse">
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:.6rem 0;font-weight:600" id="dc_nur"></td><td style="padding:.6rem 0"><a href="mailto:hhiwasit@gmail.com">hhiwasit@gmail.com</a></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:.6rem 0;font-weight:600" id="dc_emr"></td><td style="padding:.6rem 0"><a href="mailto:hhiwasit@gmail.com">hhiwasit@gmail.com</a></td></tr>
+            <tr><td style="padding:.6rem 0;font-weight:600" id="dc_mid"></td><td style="padding:.6rem 0"><a href="mailto:hhiwasit@gmail.com">hhiwasit@gmail.com</a></td></tr>
+            <tr><td style="padding:.6rem 0;font-weight:600" id="dc_ane"></td><td style="padding:.6rem 0"><a href="mailto:hhiwasit@gmail.com">hhiwasit@gmail.com</a></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="card-white" style="background:#fff;border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-md);border:1px solid var(--border)">
+          <h3 style="color:var(--navy);margin-bottom:.3rem" id="sm_t"></h3>
+          <p style="color:var(--gray);font-size:.9rem;margin-bottom:1.8rem" id="sm_s"></p>
+          <div id="formSuccess" class="alert alert-success" style="display:none"><i class="fas fa-check-circle" style="margin-left:.4rem"></i><span id="form_ok"></span></div>
+          <div class="form-row">
+            <div class="form-group"><label id="fn_lbl"></label><input type="text" id="c_fname" class="form-control"></div>
+            <div class="form-group"><label id="ln_lbl"></label><input type="text" id="c_lname" class="form-control"></div>
+          </div>
+          <div class="form-group"><label id="em_lbl"></label><input type="email" id="c_email" class="form-control" placeholder="your@email.com"></div>
+          <div class="form-group">
+            <label id="subj_lbl"></label>
+            <select id="c_subject" class="form-control">
+              <option value="" id="c_s0"></option>
+              <option id="c_s1"></option><option id="c_s2"></option>
+              <option id="c_s3"></option><option id="c_s4"></option>
+              <option id="c_s5"></option><option id="c_s6"></option>
+            </select>
+          </div>
+          <div class="form-group"><label id="msg_lbl"></label><textarea id="c_message" class="form-control" rows="5"></textarea></div>
+          <button onclick="sendMessage()" class="btn btn-primary" style="width:100%" id="send_btn">إرسال الرسالة</button>
+          <p style="font-size:.78rem;color:var(--gray);margin-top:.75rem;text-align:center" id="form_note"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script><script src="js/layout.js"></script>
+<script>
+async function sendMessage(){
+  const f=document.getElementById('c_fname').value.trim();
+  const l=document.getElementById('c_lname').value.trim();
+  const e=document.getElementById('c_email').value.trim();
+  const s=document.getElementById('c_subject').value;
+  const m=document.getElementById('c_message').value.trim();
+  if(!f||!l||!e||!s||!m){alert('يُرجى ملء جميع الحقول المطلوبة.');return;}
+
+  const btn=document.getElementById('send_btn');
+  btn.disabled=true; btn.textContent='جارٍ الإرسال...';
+
+  try {
+    const res = await fetch('https://formspree.io/f/xbdevoqq', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: f+' '+l, email: e, subject: s, message: m })
+    });
+    if (res.ok) {
+      document.getElementById('formSuccess').style.display='block';
+      ['c_fname','c_lname','c_email','c_message'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('c_subject').value='';
+    } else {
+      alert('فشل الإرسال. يرجى المحاولة مرة أخرى.');
+    }
+  } catch(err) {
+    alert('تعذّر الإرسال. تحقق من اتصالك بالإنترنت.');
+  }
+
+  btn.disabled=false; btn.textContent='إرسال الرسالة';
+}
+
+function renderPage(){
+  renderHeader('contact.html'); renderFooter();
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('ph_t','اتصل بنا'); set('ph_s','يسعدنا التواصل معك');
+  set('bc_home','الرئيسية'); set('bc_cur','اتصل بنا');
+  set('git_t','تواصل معنا'); set('git_p','للاستفسار عن القبول أو البرامج الأكاديمية أو رسائل التخرج أو أي معلومات عامة، يُرجى التواصل عبر القنوات أدناه.');
+  set('addr_lbl','العنوان'); set('addr_val','معهد الصحة العالي  / مجاور مستشفى الزهراء، الكوت، محافظة واسط، العراق');
+  set('phone_lbl','الهاتف'); set('email_lbl','البريد الإلكتروني');
+  set('hours_lbl','ساعات العمل'); set('hours_val','الأحد – الخميس: ٨:٠٠ ص – ٣:٠٠ م\nالجمعة والسبت: مغلق');
+  set('dept_c_t','التواصل مع الأقسام');
+  set('dc_nur','التمريض');
+  set('dc_emr','الطوارئ');
+  set('dc_mid','القبالة');
+  set('dc_ane','التخدير');
+  set('sm_t','أرسل رسالة'); set('sm_s','سنرد عليك في غضون يومي عمل.');
+  set('form_ok','تم إرسال رسالتك! سنتواصل معك قريبًا.');
+  set('fn_lbl','الاسم الأول *'); document.getElementById('c_fname').placeholder='الاسم الأول';
+  set('ln_lbl','اسم العائلة *'); document.getElementById('c_lname').placeholder='اسم العائلة';
+  set('em_lbl','البريد الإلكتروني *'); set('subj_lbl','الموضوع *');
+  set('c_s0','اختر موضوعًا...'); set('c_s1','استفسار عن القبول'); set('c_s2','معلومات عن البرامج');
+  set('c_s3','الوصول إلى رسائل التخرج'); set('c_s4','الشراكات الإكلينيكية');
+  set('c_s5','استفسار عام'); set('c_s6','أخرى');
+  set('msg_lbl','الرسالة *'); document.getElementById('c_message').placeholder='اكتب رسالتك هنا...';
+  set('form_note','سيتم الرد على رسالتك في أقرب وقت ممكن.');
+  document.body.classList.add('rtl');
+  document.documentElement.dir='rtl';
+  document.documentElement.lang='ar';
+  document.title='اتصل بنا – المعهد الصحي العالي واسط';
+}
+renderPage();
+</script>
+</body>
+</html>
