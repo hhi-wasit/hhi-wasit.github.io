@@ -16,7 +16,7 @@
 
 <section class="section">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start">
+    <div class="grid-2" style="gap:3rem;align-items:start">
       <div>
         <h2 id="mis_t"></h2><p id="mis_p1"></p><p id="mis_p2"></p>
         <h3 style="margin-top:2rem" id="vis_t"></h3><p id="vis_p"></p>
@@ -94,10 +94,10 @@
       </div>
 
       <!-- Prev / Next arrows -->
-      <button id="staffPrev" onclick="staffMove(-1)" style="position:absolute;top:50%;right:-22px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:2;display:flex;align-items:center;justify-content:center">
+<button id="staffPrev" onclick="staffMove(-1)" class="carousel-btn prev" style="right:-22px">
         <i class="fas fa-chevron-right"></i>
       </button>
-      <button id="staffNext" onclick="staffMove(1)" style="position:absolute;top:50%;left:-22px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:2;display:flex;align-items:center;justify-content:center">
+      <button id="staffNext" onclick="staffMove(1)" class="carousel-btn next" style="left:-22px">
         <i class="fas fa-chevron-left"></i>
       </button>
 
