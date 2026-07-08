@@ -60,7 +60,7 @@ function renderFooter() {
           <div class="social-row">
             <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-            <a href="mailto:info@hhi-wasit.edu.iq" class="social-btn"><i class="fas fa-envelope"></i></a>
+            <a href="mailto:hhiwasit@gmail.com" class="social-btn"><i class="fas fa-envelope"></i></a>
           </div>
         </div>
         <div class="footer-col">
@@ -88,7 +88,7 @@ function renderFooter() {
           <h4>اتصل بنا</h4>
           <p><i class="fas fa-map-marker-alt" style="color:var(--teal-light);${mr}:.5rem"></i>الكوت، محافظة واسط، العراق</p>
           <p><i class="fas fa-phone" style="color:var(--teal-light);${mr}:.5rem"></i>+964 23 123 4567</p>
-          <p><i class="fas fa-envelope" style="color:var(--teal-light);${mr}:.5rem"></i><a href="mailto:info@hhi-wasit.edu.iq">info@hhi-wasit.edu.iq</a></p>
+          <p><i class="fas fa-envelope" style="color:var(--teal-light);${mr}:.5rem"></i><a href="mailto:hhiwasit@gmail.com">hhiwasit@gmail.com</a></p>
           <p style="margin-top:1rem"><a href="admin.html" style="color:#9ca3af;font-size:.8rem"><i class="fas fa-lock" style="${mr}:.3rem"></i>بوابة الإدارة</a></p>
         </div>
       </div>
