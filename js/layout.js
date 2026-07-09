@@ -19,7 +19,7 @@ function renderHeader(activePage) {
         <img src="images/logo.jpg" alt="HHI Wasit Logo"
              style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;">
         <div class="logo-text">
-          المعهد الصحي العالي
+          معهد الصحة العالي
           <span>واسط · العراق</span>
         </div>
       </a>
@@ -52,7 +52,7 @@ function renderFooter() {
             <img src="images/logo.jpg" alt="HHI Wasit Logo"
                  style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;">
             <div style="color:#fff;font-weight:700;line-height:1.2">
-              المعهد الصحي العالي<br>
+              معهد الصحة العالي<br>
               <span style="font-size:.75rem;font-weight:400;color:#9ca3af">واسط، العراق</span>
             </div>
           </div>
