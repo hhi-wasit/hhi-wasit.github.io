@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     .post-shell { max-width: 900px; margin: 0 auto; }
+    .post-back { display:inline-flex; align-items:center; gap:.45rem; margin-bottom:1.2rem; font-weight:700; }
     .post-article { background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); overflow: hidden; }
     .post-heading { padding: 2.5rem 3rem 1.5rem; }
     .post-heading h1 { margin: .7rem 0 1rem; font-size: clamp(1.8rem, 4vw, 2.8rem); }
@@ -34,6 +35,7 @@
 <section class="page-hero"><div class="container"><h1>تفاصيل الخبر</h1><p>آخر أخبار ومستجدات معهد الصحة العالي / واسط</p></div></section>
 <section class="section">
   <div class="container post-shell">
+    <a class="btn btn-secondary btn-sm post-back" href="news.html"><i class="fas fa-arrow-right"></i> العودة إلى الأخبار</a>
     <div id="loadingPost" style="text-align:center;padding:4rem;color:var(--gray)"><i class="fas fa-spinner fa-spin fa-2x"></i><p>جارٍ تحميل الخبر...</p></div>
     <div id="postError" class="post-error" style="display:none"><i class="fas fa-newspaper fa-3x" style="color:var(--teal);margin-bottom:1rem"></i><h2>الخبر غير موجود</h2><p>تعذر العثور على هذا الخبر.</p><a class="btn btn-secondary" href="news.html">العودة إلى الأخبار</a></div>
     <article id="postArticle" class="post-article" style="display:none">
