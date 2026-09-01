@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     .post-shell { max-width: 900px; margin: 0 auto; }
-    .post-back { display:inline-flex; align-items:center; gap:.45rem; margin-bottom:1.2rem; font-weight:700; }
+    .post-back { display:flex; width:max-content; margin:0 0 1.2rem auto; align-items:center; gap:.35rem; font-weight:700; border:0; padding:.35rem .1rem; }
     .post-article { background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); overflow: hidden; }
     .post-heading { padding: 2.5rem 3rem 1.5rem; }
     .post-heading h1 { margin: .7rem 0 1rem; font-size: clamp(1.8rem, 4vw, 2.8rem); }
@@ -35,14 +35,14 @@
 <section class="page-hero"><div class="container"><h1>تفاصيل الخبر</h1><p>آخر أخبار ومستجدات معهد الصحة العالي / واسط</p></div></section>
 <section class="section">
   <div class="container post-shell">
-    <a class="btn btn-secondary btn-sm post-back" href="news.html"><i class="fas fa-arrow-right"></i> العودة إلى الأخبار</a>
+    <a class="post-back" href="news.html"><i class="fas fa-arrow-left"></i> رجوع</a>
     <div id="loadingPost" style="text-align:center;padding:4rem;color:var(--gray)"><i class="fas fa-spinner fa-spin fa-2x"></i><p>جارٍ تحميل الخبر...</p></div>
     <div id="postError" class="post-error" style="display:none"><i class="fas fa-newspaper fa-3x" style="color:var(--teal);margin-bottom:1rem"></i><h2>الخبر غير موجود</h2><p>تعذر العثور على هذا الخبر.</p><a class="btn btn-secondary" href="news.html">العودة إلى الأخبار</a></div>
     <article id="postArticle" class="post-article" style="display:none">
       <div class="post-heading"><span id="postCategory" class="post-category"></span><h1 id="postTitle"></h1><div class="post-meta"><span><i class="fas fa-calendar-alt"></i><span id="postDate"></span></span><span><i class="fas fa-user"></i><span id="postAuthor"></span></span></div></div>
       <div id="postBody" class="post-content"></div>
       <div id="postGallery" class="post-gallery" style="display:none"><h2 class="post-gallery-title">صور الخبر</h2><div id="postImages" class="post-images"></div></div>
-      <div class="post-actions"><a class="btn btn-secondary btn-sm" href="news.html"><i class="fas fa-arrow-right"></i> العودة إلى الأخبار</a><div><button id="copyLinkBtn" class="btn btn-navy btn-sm" type="button"><i class="fas fa-link"></i> نسخ رابط الخبر</button><span id="copyStatus" class="copy-status" role="status"></span></div></div>
+      <div class="post-actions"><div><button id="copyLinkBtn" class="btn btn-navy btn-sm" type="button"><i class="fas fa-link"></i> نسخ رابط الخبر</button><span id="copyStatus" class="copy-status" role="status"></span></div></div>
     </article>
   </div>
 </section>

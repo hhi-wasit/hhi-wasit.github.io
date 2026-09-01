@@ -435,6 +435,17 @@ footer {
 .breadcrumb a:hover { color: #fff; }
 .breadcrumb span { color: rgba(255,255,255,0.4); }
 
+/* News pages use page-hero; keep it below the fixed top ribbon. */
+.page-hero {
+  margin-top: 70px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+  padding: 4rem 0 3rem;
+  color: #fff;
+  text-align: center;
+}
+.page-hero h1 { color: #fff; margin-bottom: .5rem; font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.page-hero p { color: rgba(255,255,255,.8); font-size: 1.05rem; margin: 0; }
+
 /* ===== ALERT / NOTICE ===== */
 .alert { padding: 1rem 1.4rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid; }
 .alert-info { background: #e3f2fd; border-color: #1565c0; color: #1a237e; }
