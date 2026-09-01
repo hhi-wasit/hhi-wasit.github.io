@@ -15,16 +15,18 @@
     .post-category { display:inline-block; color:var(--teal); background:var(--teal-pale); padding:.3rem .8rem; border-radius:20px; font-weight:700; }
     .post-meta { display:flex; flex-wrap:wrap; gap:1.2rem; color:var(--gray); font-size:.9rem; }
     .post-meta i { color:var(--teal); margin-left:.35rem; }
-    .post-gallery { padding: 0 3rem; }
-    .post-main-image { width:100%; max-height:520px; object-fit:contain; background:var(--gray-light); border-radius:8px; }
-    .post-thumbs { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.8rem; }
-    .post-thumb { width:76px; height:58px; object-fit:cover; border:2px solid transparent; border-radius:5px; cursor:pointer; }
-    .post-thumb.active, .post-thumb:hover { border-color:var(--teal); }
-    .post-content { padding: 2rem 3rem 2.5rem; color:var(--gray-dark); font-size:1.08rem; line-height:2; white-space:pre-wrap; }
+    .post-content { padding: 1rem 3rem 2rem; color:var(--gray-dark); font-size:1.08rem; line-height:2; white-space:pre-wrap; }
+    .post-gallery { padding: 0 3rem 2.5rem; }
+    .post-gallery-title { color:var(--navy); font-size:1.25rem; margin:0 0 1rem; padding-top:1rem; border-top:1px solid var(--border); }
+    .post-images { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; }
+    .post-image { width:100%; aspect-ratio:4 / 3; object-fit:cover; background:var(--gray-light); border-radius:8px; border:1px solid var(--border); }
     .post-actions { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; padding:1.2rem 3rem; border-top:1px solid var(--border); background:var(--gray-light); }
     .copy-status { color:var(--teal); font-size:.9rem; align-self:center; }
     .post-error { text-align:center; padding:4rem 1rem; }
-    @media (max-width:600px) { .post-heading,.post-gallery,.post-content,.post-actions { padding-left:1.2rem; padding-right:1.2rem; } }
+    @media (max-width:600px) {
+      .post-heading,.post-gallery,.post-content,.post-actions { padding-left:1.2rem; padding-right:1.2rem; }
+      .post-images { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body class="rtl">
@@ -36,8 +38,8 @@
     <div id="postError" class="post-error" style="display:none"><i class="fas fa-newspaper fa-3x" style="color:var(--teal);margin-bottom:1rem"></i><h2>الخبر غير موجود</h2><p>تعذر العثور على هذا الخبر.</p><a class="btn btn-secondary" href="news.html">العودة إلى الأخبار</a></div>
     <article id="postArticle" class="post-article" style="display:none">
       <div class="post-heading"><span id="postCategory" class="post-category"></span><h1 id="postTitle"></h1><div class="post-meta"><span><i class="fas fa-calendar-alt"></i><span id="postDate"></span></span><span><i class="fas fa-user"></i><span id="postAuthor"></span></span></div></div>
-      <div id="postGallery" class="post-gallery" style="display:none"><img id="postMainImage" class="post-main-image" alt=""><div id="postThumbs" class="post-thumbs"></div></div>
       <div id="postBody" class="post-content"></div>
+      <div id="postGallery" class="post-gallery" style="display:none"><h2 class="post-gallery-title">صور الخبر</h2><div id="postImages" class="post-images"></div></div>
       <div class="post-actions"><a class="btn btn-secondary btn-sm" href="news.html"><i class="fas fa-arrow-right"></i> العودة إلى الأخبار</a><div><button id="copyLinkBtn" class="btn btn-navy btn-sm" type="button"><i class="fas fa-link"></i> نسخ رابط الخبر</button><span id="copyStatus" class="copy-status" role="status"></span></div></div>
     </article>
   </div>
@@ -48,7 +50,6 @@
 const catLabels = {'منشآت':'منشآت','فعاليات':'فعاليات','أكاديمي':'أكاديمي','شراكات':'شراكات','تدريب':'تدريب','عام':'عام'};
 function getImages(n) { if (n.images && Array.isArray(n.images) && n.images.length) return n.images; return n.image ? [n.image] : []; }
 function showError() { document.getElementById('loadingPost').style.display='none'; document.getElementById('postError').style.display='block'; }
-function showImage(src, thumb) { document.getElementById('postMainImage').src=src; document.querySelectorAll('.post-thumb').forEach(t=>t.classList.remove('active')); if (thumb) thumb.classList.add('active'); }
 async function loadPost() {
   const id = new URLSearchParams(window.location.search).get('id');
   if (!id) return showError();
@@ -62,7 +63,7 @@ async function loadPost() {
     document.getElementById('postDate').textContent=formatDate(n.date);
     document.getElementById('postAuthor').textContent=n.author||'الإدارة';
     document.getElementById('postBody').textContent=n.body||'';
-    if (imgs.length) { document.getElementById('postGallery').style.display='block'; document.getElementById('postMainImage').src=imgs[0]; document.getElementById('postMainImage').alt=n.title; document.getElementById('postThumbs').innerHTML=imgs.length>1 ? imgs.map((src,i)=>`<img src="${escHtml(src)}" class="post-thumb ${i===0?'active':''}" alt="" onclick="showImage('${escHtml(src)}',this)">`).join('') : ''; }
+    if (imgs.length) { document.getElementById('postGallery').style.display='block'; document.getElementById('postImages').innerHTML=imgs.map((src,i)=>`<img src="${escHtml(src)}" class="post-image" alt="${escHtml(n.title)} - صورة ${i+1}" loading="lazy">`).join(''); }
     document.getElementById('loadingPost').style.display='none'; document.getElementById('postArticle').style.display='block'; document.title=n.title+' – المعهد الصحي العالي واسط';
   } catch (e) { showError(); }
 }
